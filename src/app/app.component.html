@@ -9,8 +9,8 @@
 <div class="saved-alarms" *ngIf="alarms.length > 0">
   <h3>Сохраненные будильники</h3>
   <ul>
-    <li *ngFor="let alarm of alarms">
-      {{ alarm.name }} - {{ alarm.cron }}
+    <li *ngFor="let alarm of alarms; let i = index">
+      {{ i + ". " + alarm.cron }}
       <button (click)="editAlarm(alarm)">Редактировать</button>
     </li>
   </ul>

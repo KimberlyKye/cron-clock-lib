@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as cronstrue from 'cronstrue';
 import { format, addMinutes } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import 'cronstrue/locales/ru';
 
 import * as cronParser from 'cron-parser';
 import { FormsModule } from '@angular/forms';
@@ -17,8 +18,8 @@ import { FormsModule } from '@angular/forms';
 export class CronAlarmComponent implements OnInit {
   @Input() alarmName: string = '';
   @Input() cronExpression: string = '0 9 * * *'; // По умолчанию - ежедневно в 9:00
-  @Output() cronChange = new EventEmitter<{ name: string; cron: string }>();
-  @Output() saveAlarm = new EventEmitter<{ name: string; cron: string }>();
+  @Output() cronChange = new EventEmitter<{ cron: string }>();
+  @Output() saveAlarm = new EventEmitter<{ cron: string }>();
 
   // Поля формы
   minutes: string = '0';
@@ -119,7 +120,7 @@ export class CronAlarmComponent implements OnInit {
       cronParser.CronExpressionParser.parse(this.cronExpression);
       this.updateHumanReadable();
       this.calculateNextAlarms();
-      this.cronChange.emit({ name: this.alarmName, cron: this.cronExpression });
+      this.cronChange.emit({ cron: this.cronExpression });
     } catch (err) {
       this.errorMessage = 'Некорректное cron выражение';
       console.error(err);
@@ -166,7 +167,7 @@ export class CronAlarmComponent implements OnInit {
   onSave(): void {
     this.updateCronExpression();
     if (!this.errorMessage) {
-      this.saveAlarm.emit({ name: this.alarmName, cron: this.cronExpression });
+      this.saveAlarm.emit({ cron: this.cronExpression });
     }
   }
 }
