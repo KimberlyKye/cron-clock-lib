@@ -1,12 +1,12 @@
 .cron-alarm-container {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 25px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h2 {
@@ -44,7 +44,45 @@ h2 {
   }
 }
 
-.custom-fields {
+.time-settings {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+
+  .form-group {
+    flex: 1;
+  }
+}
+
+.weekdays-selector,
+.months-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+
+  button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: #e9ecef;
+    }
+
+    &.active {
+      background-color: #3498db;
+      color: white;
+      border-color: #3498db;
+    }
+  }
+}
+
+.specific-weekday-settings,
+.custom-settings {
   background-color: #f8f9fa;
   padding: 15px;
   border-radius: 6px;

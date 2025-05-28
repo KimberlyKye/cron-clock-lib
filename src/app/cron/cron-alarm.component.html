@@ -1,58 +1,72 @@
 <div class="cron-alarm-container">
   <div class="form-group">
-    <label>Шаблон:</label>
+    <label>Тип расписания/шаблон:</label>
     <select [(ngModel)]="preset" (change)="updateCronExpression()">
-      <option *ngFor="let p of presets" [value]="p.value">{{ p.label }}</option>
+      <option *ngFor="let p of presets" [value]="p.value">{{p.label}}</option>
     </select>
   </div>
 
-  <div class="custom-fields" *ngIf="preset === 'custom'">
+  <div class="time-settings">
     <div class="form-group">
-      <label>Минуты (0-59):</label>
-      <input
-        type="text"
-        [(ngModel)]="minutes"
-        (change)="updateCronExpression()"
-        placeholder="Пример: 0,15,30,45"
-      />
+      <label>Часы:</label>
+      <input type="number" min="0" max="23" [(ngModel)]="customHours"
+             (change)="updateCronExpression()">
+    </div>
+    <div class="form-group">
+      <label>Минуты:</label>
+      <input type="number" min="0" max="59" [(ngModel)]="customMinutes"
+             (change)="updateCronExpression()">
+    </div>
+  </div>
+
+  <div class="specific-weekday-settings" *ngIf="preset === 'specific-weekday'">
+    <div class="form-group">
+      <label>День недели:</label>
+      <select [(ngModel)]="customDayOfWeek" (change)="updateCronExpression()">
+        <option *ngFor="let day of weekdays" [value]="day.value">{{day.label}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Номер дня в месяце:</label>
+      <select [(ngModel)]="customWeekdayNumber" (change)="updateCronExpression()">
+        <option *ngFor="let num of weekdayNumbers" [value]="num.value">{{num.label}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Месяц:</label>
+      <select [(ngModel)]="customMonth" (change)="updateCronExpression()">
+        <option *ngFor="let m of months" [value]="m.value">{{m.label}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="custom-settings" *ngIf="preset === 'custom'">
+    <div class="form-group">
+      <label>Дни недели:</label>
+      <div class="weekdays-selector">
+        <button *ngFor="let day of weekdays"
+                [class.active]="isWeekdaySelected(day.value)"
+                (click)="toggleWeekday(day.value)">
+          {{day.label}}
+        </button>
+      </div>
     </div>
 
     <div class="form-group">
-      <label>Часы (0-23):</label>
-      <input
-        type="text"
-        [(ngModel)]="hours"
-        (change)="updateCronExpression()"
-        placeholder="Пример: 9-17"
-      />
+      <label>Месяцы:</label>
+      <div class="months-selector">
+        <button *ngFor="let m of months"
+                [class.active]="isMonthSelected(m.value)"
+                (click)="toggleMonth(m.value)">
+          {{m.label}}
+        </button>
+      </div>
     </div>
 
     <div class="form-group">
       <label>День месяца (1-31):</label>
-      <input
-        type="text"
-        [(ngModel)]="dayOfMonth"
-        (change)="updateCronExpression()"
-        placeholder="Пример: 1,15"
-      />
-    </div>
-
-    <div class="form-group">
-      <label>Месяц:</label>
-      <select [(ngModel)]="month" (change)="updateCronExpression()">
-        <option *ngFor="let m of months" [value]="m.value">
-          {{ m.label }}
-        </option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>День недели:</label>
-      <select [(ngModel)]="dayOfWeek" (change)="updateCronExpression()">
-        <option *ngFor="let day of daysOfWeek" [value]="day.value">
-          {{ day.label }}
-        </option>
-      </select>
+      <input type="text" [(ngModel)]="customDayOfMonth"
+             (change)="updateCronExpression()" placeholder="*">
     </div>
   </div>
 
@@ -78,9 +92,7 @@
     </ul>
   </div>
 
-  <div class="actions">
-    <button (click)="onSave()" [disabled]="!!errorMessage">
-      Сохранить будильник
-    </button>
+  <div class="actions" *ngIf="showSaveButton">
+    <button (click)="onSave()" [disabled]="!!errorMessage">Сохранить будильник</button>
   </div>
 </div>

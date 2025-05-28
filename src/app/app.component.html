@@ -1,10 +1,10 @@
-<app-cron-alarm
+<cron-alarm
   [alarmName]="currentAlarmName"
   [cronExpression]="currentAlarmCron"
   (cronChange)="onCronChange($event)"
   (saveAlarm)="saveAlarm($event)"
 >
-</app-cron-alarm>
+</cron-alarm>
 
 <div class="saved-alarms" *ngIf="alarms.length > 0">
   <h3>Сохраненные будильники</h3>
